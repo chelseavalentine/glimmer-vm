@@ -36,7 +36,7 @@ export default class UpdatingVM {
   constructor(env: Environment, program: Program, { alwaysRevalidate = false }) {
     this.env = env;
     this.constants = program.constants;
-    this.dom = env.getDOM();
+    this.dom = new DOMChanges(document);
     this.alwaysRevalidate = alwaysRevalidate;
   }
 
@@ -172,7 +172,6 @@ export class TryOpcode extends BlockOpcode implements ExceptionHandler {
     children.clear();
 
     let elementStack = NewElementBuilder.resume(
-      state.env,
       bounds,
       bounds.reset(state.env)
     );
@@ -330,7 +329,6 @@ export class ListBlockOpcode extends BlockOpcode {
     let { bounds, state } = this;
 
     let elementStack = NewElementBuilder.forInitialRender(
-      state.env,
       { element: bounds.parentElement(), nextSibling }
     );
 
